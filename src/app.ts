@@ -22,6 +22,6 @@ webRoutes(app);
 
 app.listen(PORT, ()=> {
     console.log(`Server is running on port ${PORT}`);
-    console.log("env port", process.env.PORT);
-    console.log(__dirname+'/views');
+    // console.log("env port", process.env.PORT);
+    // console.log(__dirname+'/views');
 })

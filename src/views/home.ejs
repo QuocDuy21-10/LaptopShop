@@ -12,9 +12,48 @@
 </head>
 
 <body>
-    <h1>Trang chủ</h1>
-    <!-- <img src="/images/hoidanit.png" alt="Image 1"> -->
-    <a class="btn btn-primary" href="/create-user"> Create a new user</a>
+    <div style="margin: 25px;">
+        <div style="display:flex; justify-content: space-between; align-items: center; ">
+            <h1>List Users:
+            </h1>
+            <div>
+                <a class="btn btn-primary" href="/create-user"> Create a new user</a>
+            </div>
+        </div>
+        <hr />
+        <div>
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Actions</th>
+                </thead>
+                <tbody>
+                    <% users.forEach(function(user, i) { %>
+                        <tr>
+                            <td>
+                                <%= users[i].id%>
+                            </td>
+                            <td>
+                                <%= users[i].name%>
+                            </td>
+                            <td>
+                                <%= users[i].email%>
+                            </td>
+                            <td>
+                                <%= users[i].address%>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger">Delete </button>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 
 </html>
