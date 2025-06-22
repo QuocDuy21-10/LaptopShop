@@ -1,15 +1,6 @@
 import  getConnection  from 'config/db';
-const handleCreateUser = async(fullName: string, email: string, address: string) => {
-    const connection = await getConnection();
-    // create a new user
-    try{
-        const sql = 'INSERT INTO `users` (`name`, `email`, `address`) VALUES (?,?,?)';
-        const values = [fullName, email, address];
-        const [result] = await connection.execute(sql, values);
-    } catch (err) {
-        console.log(err);
-    }
-}
+
+// get all users
 const getAllUsers = async()=> {
     const connection = await getConnection();
     try {
@@ -21,4 +12,28 @@ const getAllUsers = async()=> {
     return [];
     }
 }
-export { handleCreateUser, getAllUsers };
+
+// create a new user
+const handleCreateUser = async(fullName: string, email: string, address: string) => {
+    const connection = await getConnection();
+    try{
+        const sql = 'INSERT INTO `users` (`name`, `email`, `address`) VALUES (?,?,?)';
+        const values = [fullName, email, address];
+        const [result] = await connection.execute(sql, values);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+// delete a user
+ const handleDeleteUser = async(id) => {
+    const connection = await getConnection();
+    try {
+        const sql = 'DELETE FROM `users` WHERE `id` = ?';
+        const values = [id];
+        const [ results ] = await connection.execute(sql, values);
+    } catch (err) {
+        console.log(err);
+    }
+ }
+export { handleCreateUser, getAllUsers, handleDeleteUser };

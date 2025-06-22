@@ -31,22 +31,24 @@
                     <th>Actions</th>
                 </thead>
                 <tbody>
-                    <% users.forEach(function(user, i) { %>
+                    <% users.forEach(function(user) { %>
                         <tr>
                             <td>
-                                <%= users[i].id%>
+                                <%= user.id%>
                             </td>
                             <td>
-                                <%= users[i].name%>
+                                <%= user.name%>
                             </td>
                             <td>
-                                <%= users[i].email%>
+                                <%= user.email%>
                             </td>
                             <td>
-                                <%= users[i].address%>
+                                <%= user.address%>
                             </td>
                             <td>
-                                <button class="btn btn-danger">Delete </button>
+                                <form action="/handle-delete-user/<%= user.id%>" method="post">
+                                    <button type="submit" class="btn btn-danger">Delete </button>
+                                </form>
                             </td>
                         </tr>
                         <% }) %>
