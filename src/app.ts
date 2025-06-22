@@ -4,7 +4,7 @@ import 'dotenv/config'
 
 const app = express();
 const PORT = process.env.PORT || 8080;
-import webRoutes from './routes/web';   
+import webRoutes from 'routes/web';   
 
 //config view engine
 app.set('view engine', 'ejs');
