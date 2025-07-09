@@ -39,6 +39,8 @@
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Address</th>
+                                        <th>Phone</th>
+                                        <th>Account Type</th>
                                         <th>Actions</th>
                                     </thead>
                                     <tbody>
@@ -48,13 +50,19 @@
                                                     <%= user.id%>
                                                 </td>
                                                 <td>
-                                                    <%= user.name%>
+                                                    <%= user.username%>
                                                 </td>
                                                 <td>
                                                     <%= user.fullName%>
                                                 </td>
                                                 <td>
                                                     <%= user.address%>
+                                                </td>
+                                                <td>
+                                                    <%= user.phone%>
+                                                </td>
+                                                <td>
+                                                    <%= user.accountType%>
                                                 </td>
                                                 <td>
                                                     <div style="display: flex; gap: 10px">
