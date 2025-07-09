@@ -7,7 +7,7 @@ const getHomePage = async (req : Request, res : Response)=> {
    });
 }
 const getCreateUserPage = (req: Request, res: Response) => {
-    return res.render('create-user');
+    return res.render('admin/user/create');
 }
 const postCreateUser = async(req: Request, res: Response) => {
     const { fullName, email, address } = req.body;
