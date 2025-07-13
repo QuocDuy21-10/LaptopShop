@@ -17,7 +17,7 @@ const getAllRoles = async()=> {
     return await prisma.role.findMany();
 }
 // create a new user
-const handleCreateUser = async(fullName: string, email: string, address: string, phone: string, avatar: string) => {
+const handleCreateUser = async(fullName: string, email: string, address: string, phone: string, avatar: string, role: string) => {
     const defaultPassword = await hashPassword("123456");
      await prisma.user.create({
         data:
@@ -28,7 +28,8 @@ const handleCreateUser = async(fullName: string, email: string, address: string,
                 password: defaultPassword,
                 accountType: ACCOUNT_TYPE.SYSTEM,
                 avatar: avatar,
-                phone: phone
+                phone: phone,
+                roleId: +role,
             }
     })
 }
@@ -50,19 +51,18 @@ const handleCreateUser = async(fullName: string, email: string, address: string,
     })
     return user
  }
- 
  // update a user
- const handleUpdateUser = async(id: string, fullName: string, email: string, address: string)=> {
+ const handleUpdateUser = async(id: string, fullName: string, phone: string, role: string, address: string, avatar: string )=> {
     await prisma.user.update({
         where: {
             id: +id,
         },
         data: {
             fullName: fullName,
-                username: email,
-                address: address,
-                password: '',
-                accountType: ''
+            phone: phone,
+            roleId: +role,
+            address: address,
+            ...(avatar ? { avatar } : {})
         }
     })
  }

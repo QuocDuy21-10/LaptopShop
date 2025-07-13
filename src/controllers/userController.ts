@@ -17,25 +17,29 @@ const postCreateUser = async(req: Request, res: Response) => {
     const { fullName, username, phone, role, address } = req.body;
     const file = req.file;
     const avatar = file?.filename;
-    await handleCreateUser( fullName, username, address, phone, avatar);
+    await handleCreateUser( fullName, username, address, phone, avatar, role);
     return res.redirect('/admin/user');
 }
 const postDeleteUser = async (req:Request, res:Response) => {
     const { id } = req.params;
     await handleDeleteUser(id);
-    return res.redirect('/');
+    return res.redirect('/admin/user');
 }
 const getViewUser = async (req:Request, res:Response) => {
     const { id } = req.params;
     const user = await getUserById(id);
-    return res.render('view-user', {
+    const roles = await getAllRoles();
+    return res.render('admin/user/detail', {
         id,
-        user
+        user,
+        roles
     })
 }
 const postUpdateUser = async (req: Request, res: Response) => {
-    const {id, fullName, email, address } = req.body;
-    await handleUpdateUser(id, fullName, email, address);
-    return res.redirect('/');
+    const {id,fullName, phone, role, address } = req.body;
+    const file = req.file;
+    const avatar = file?.filename;
+    await handleUpdateUser(id, fullName, phone,role, address, avatar);
+    return res.redirect('/admin/user');
 }
 export { getHomePage , getCreateUserPage, postCreateUser, postDeleteUser, getViewUser, postUpdateUser};
