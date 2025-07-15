@@ -1,7 +1,9 @@
-import { log } from "console";
+import { factoryOptions, targetOptions } from "config/constant";
 import { Request, Response } from "express";
-import { handleCreateProduct } from "services/product.service";
+import { handleCreateProduct, handleDeleteProduct, getProductById, handleUpdateProduct } from "services/admin/product.service";
 import { ProductSchema, TProductSchema } from "src/validation/product.schema";
+
+
 const getAdminCreateProductPage = (req: Request, res:Response ) => {
     const errors = [];
     const oldData = {
@@ -40,9 +42,33 @@ const postAdminCreateProduct = async(req: Request, res:Response ) => {
             errors, oldData
         });
     }
-    // const file = req.file;
-    // const image = file?.filename;
-    // await handleCreateProduct(name, price, detailDesc, shortDesc, quantity, factory, target, image);
+    // success
+    const image = req?.file?.filename ?? null;
+    await handleCreateProduct(name, +price, detailDesc, shortDesc, +quantity, factory, target, image);
     return res.redirect('/admin/product');
 }
-export {getAdminCreateProductPage, postAdminCreateProduct}
+
+
+const postDeleteProduct = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    await handleDeleteProduct(id);
+    return res.redirect('/admin/product');
+}
+
+const getViewProduct = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const product = await getProductById(+id);
+    const factories = factoryOptions;
+    const targets = targetOptions;
+    return res.render('admin/product/detail.ejs', {
+        id, product, factories, targets
+    });
+}
+
+const postUpdateProduct = async (req: Request, res: Response) => {
+    const { id, name, price, detailDesc, shortDesc, quantity, factory, target} = req.body as TProductSchema;
+    const image = req?.file?.filename ?? null;
+    await handleUpdateProduct(+id, name, +price, detailDesc, shortDesc, +quantity, factory, target, image);
+    return res.redirect('/admin/product');
+}
+export {getAdminCreateProductPage, postAdminCreateProduct, postDeleteProduct, getViewProduct, postUpdateProduct}
