@@ -23,7 +23,52 @@
                                 <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
                                 <li class="breadcrumb-item active">Products</li>
                             </ol>
-                            <div>table product</div>
+                            <div>
+                                <div style="display:flex; justify-content: space-between; align-items: center; ">
+                                    <h5>Table Products:
+                                    </h5>
+                                    <div>
+                                        <a class="btn btn-primary" href="/admin/create-product"> Create a new
+                                            product</a>
+                                    </div>
+                                </div>
+                                <hr />
+                                <table class="table table-hover table-bordered">
+                                    <thead>
+                                        <th>ID</th>
+                                        <th>Price</th>
+                                        <th>Factory</th>
+                                        <th>Actions</th>
+                                    </thead>
+                                    <tbody>
+                                        <% products.forEach(function(user) { %>
+                                            <tr>
+                                                <td>
+                                                    <%= product.id%>
+                                                </td>
+                                                <td>
+                                                    <%= product.price%>
+                                                </td>
+                                                <td>
+                                                    <%= product.factory%>
+                                                </td>
+                                                <td>
+                                                    <div style="display: flex; gap: 10px">
+                                                        <form action="/admin/view-user/<%= product.id %>" method="get">
+                                                            <button type="submit" class="btn btn-warning">View </button>
+                                                        </form>
+                                                        <form action="/admin/delete-user/<%= product.id %>"
+                                                            method="post">
+                                                            <button type="submit" class="btn btn-danger">Delete
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </main>
                     <%- include('../layout/footer') -%>

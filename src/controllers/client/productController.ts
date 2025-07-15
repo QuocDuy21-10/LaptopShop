@@ -3,4 +3,6 @@ const getProductPage = (req:Request, res:Response) => {
     return res.render('client/product/detail');
 }
 
+
+
 export {getProductPage}

@@ -42,18 +42,18 @@
                                             enctype="multipart/form-data">
                                             <div class="mb-3">
                                                 <label class="form-label">Full Name:</label>
-                                                <input name="fullName" type="text" class="form-control"
+                                                <input required name="fullName" type="text" class="form-control"
                                                     placeholder="Enter your name">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Email:</label>
-                                                <input name="username" type="email" class="form-control"
+                                                <input required name="username" type="email" class="form-control"
                                                     placeholder="name@example.com">
                                             </div>
                                             <div class="row">
                                                 <div class="mb-3 col-6">
                                                     <label class="form-label">Phone</label>
-                                                    <input name="phone" type="text" class="form-control">
+                                                    <input required name="phone" type="text" class="form-control">
                                                 </div>
                                                 <div class="mb-3 col-6">
                                                     <label class="form-label">Role</label>
@@ -79,10 +79,9 @@
                                                 <textarea name="address" class="form-control" rows="2"></textarea>
                                             </div>
                                             <div class="mb-3">
-                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                <button type="submit" class="btn btn-warning mt-3">Submit</button>
                                             </div>
                                         </form>
-
                                     </div>
                                 </div>
                             </div>
