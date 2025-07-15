@@ -12,7 +12,6 @@ const handleCreateProduct = async(name: string, price: number, detailDesc: strin
             shortDesc: shortDesc,
             quantity: quantity,
             factory: factory,
-            sold: 0,
             target: target,
              ...(image ? { image } : {})
         }
