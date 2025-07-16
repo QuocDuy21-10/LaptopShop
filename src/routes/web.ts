@@ -3,6 +3,7 @@ import { getHomePage, getCreateUserPage, postCreateUser, postDeleteUser, getView
 import { getDashboardPage, getAdminUserPage, getAdminOrderPage, getAdminProductPage } from 'controllers/admin/dashboardController';
 import { getProductPage } from 'controllers/client/productController';
 import { getAdminCreateProductPage, postAdminCreateProduct, postDeleteProduct, getViewProduct, postUpdateProduct } from 'controllers/admin/productController';
+import { getLoginPage, getRegisterPage, postRegister } from 'controllers/client/authController';
 import  fileUploadMiddleware  from  'middlewares/multer';
 const router = express.Router();
 
@@ -10,6 +11,9 @@ const webRoutes = (app: Express) =>{
     // client route
     router.get('/', getHomePage);
     router.get('/product/:id', getProductPage);
+    router.get('/login', getLoginPage);
+    router.get('/register', getRegisterPage);
+    router.post('register', postRegister);
    
     // admin route
     router.get('/admin', getDashboardPage);

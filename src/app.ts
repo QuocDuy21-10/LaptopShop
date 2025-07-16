@@ -24,6 +24,11 @@ webRoutes(app);
 import initData from 'config/seed';
 initData();
 
+// handle 404 not found
+app.use((req, res) => {
+    res.status(404).render('notfound/404.ejs');
+})
+
 app.listen(PORT, ()=> {
     console.log(`Server is running on port ${PORT}`);
     // console.log("env port", process.env.PORT);
