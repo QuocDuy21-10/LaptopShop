@@ -2,6 +2,7 @@ import passport from "passport";
 import { Strategy as LocalStrategy} from "passport-local";
 import bcrypt from "bcrypt";
 import { prisma } from "config/client";
+import { getUserById } from "services/user.service";
 const configPassportLocal = () =>{
     passport.use(new LocalStrategy({ passReqToCallback: true }, async function verify(req, username, password, cb) {
     const { session } = req as any;
@@ -26,15 +27,14 @@ const configPassportLocal = () =>{
     }));
 
    passport.serializeUser(function (user: any, cb) {
-        process.nextTick(function () {
             cb(null, { id: user.id, username: user.username });
-        });
     });
 
-    passport.deserializeUser(function (user, cb) {
-        process.nextTick(function () {
-            return cb(null, user);
-        });
+    passport.deserializeUser(async function (user: any, cb) {
+        const { id, username } = user;
+        // query to database 
+        const userInDB = await getUserById(id);
+        return cb(null, { ... userInDB});
     });
 }
 export default configPassportLocal
