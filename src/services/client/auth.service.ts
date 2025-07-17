@@ -1,6 +1,7 @@
 import { prisma } from "config/client"
 import { ACCOUNT_TYPE } from "config/constant"
 import { hashPassword } from "services/user.service"
+import bcrypt from "bcrypt"
 
 const isEmailExist = async (email: string) => {
     const user = await prisma.user.findUnique({
@@ -32,6 +33,6 @@ const registerNewUser = async (fullName: string, email: string, password: string
     } else {
         throw new Error("USER Role không tồn tại")
     }
-     
 }
+
 export {isEmailExist, registerNewUser}

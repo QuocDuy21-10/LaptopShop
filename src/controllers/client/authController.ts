@@ -1,9 +1,12 @@
 import { Request, Response } from "express";
-import { register } from "module";
 import { registerNewUser } from "services/client/auth.service";
-import { RegisterSchema } from "src/validation/register.schema";
+import { RegisterSchema, TRegisterSchema } from "src/validation/register.schema";
 const getLoginPage = async (req: Request, res: Response) => {
-    return res.render('client/auth/login.ejs');
+    const {session} = req as any;
+    const messages = session?.messages ?? [];
+    return res.render('client/auth/login.ejs', {
+        messages
+    });
 }
 
 const getRegisterPage = async (req: Request, res: Response) => {
@@ -21,7 +24,7 @@ const getRegisterPage = async (req: Request, res: Response) => {
 }
 
 const postRegister = async(req: Request, res: Response) => {
-    const {fullName, email, password, confirmPassword} = req.body;
+    const {fullName, email, password, confirmPassword} = req.body as TRegisterSchema;
     const validate = await RegisterSchema.safeParseAsync(req.body);
     if (!validate.success) {
             const errorsZod = validate.error.issues;
@@ -38,7 +41,7 @@ const postRegister = async(req: Request, res: Response) => {
     }
     // success
     await registerNewUser(fullName, email, password);
-    return res.render('client/auth/login.ejs'); 
+    return res.redirect('/login');
 }
 
 export {getLoginPage, getRegisterPage, postRegister}

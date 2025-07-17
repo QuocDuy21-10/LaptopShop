@@ -5,6 +5,7 @@ import { getProductPage } from 'controllers/client/productController';
 import { getAdminCreateProductPage, postAdminCreateProduct, postDeleteProduct, getViewProduct, postUpdateProduct } from 'controllers/admin/productController';
 import { getLoginPage, getRegisterPage, postRegister } from 'controllers/client/authController';
 import  fileUploadMiddleware  from  'middlewares/multer';
+import passport from 'passport';
 const router = express.Router();
 
 const webRoutes = (app: Express) =>{
@@ -12,8 +13,13 @@ const webRoutes = (app: Express) =>{
     router.get('/', getHomePage);
     router.get('/product/:id', getProductPage);
     router.get('/login', getLoginPage);
+    router.post('/login', passport.authenticate('local', {
+        successRedirect: '/',
+        failureRedirect: '/login',
+        failureMessage: true, // passport sẽ lưu message vào req.session.messages
+    }));
     router.get('/register', getRegisterPage);
-    router.post('register', postRegister);
+    router.post('/register', postRegister);
    
     // admin route
     router.get('/admin', getDashboardPage);
