@@ -3,26 +3,29 @@ import { getHomePage, getCreateUserPage, postCreateUser, postDeleteUser, getView
 import { getDashboardPage, getAdminUserPage, getAdminOrderPage, getAdminProductPage } from 'controllers/admin/dashboardController';
 import { getProductPage } from 'controllers/client/productController';
 import { getAdminCreateProductPage, postAdminCreateProduct, postDeleteProduct, getViewProduct, postUpdateProduct } from 'controllers/admin/productController';
-import { getLoginPage, getRegisterPage, postRegister } from 'controllers/client/authController';
+import { getLoginPage, getRegisterPage, postRegister, getSuccessRedirectPage, postLogout } from 'controllers/client/authController';
 import  fileUploadMiddleware  from  'middlewares/multer';
 import passport from 'passport';
+import { isAdmin, isLogin } from 'middlewares/auth';
 const router = express.Router();
 
 const webRoutes = (app: Express) =>{
     // client route
     router.get('/', getHomePage);
+    router.get('/success-redirect', getSuccessRedirectPage);
     router.get('/product/:id', getProductPage);
-    router.get('/login', getLoginPage);
+    router.get('/login', isLogin, getLoginPage);
     router.post('/login', passport.authenticate('local', {
-        successRedirect: '/',
+        successRedirect: '/success-redirect',
         failureRedirect: '/login',
         failureMessage: true, // passport sẽ lưu message vào req.session.messages
     }));
     router.get('/register', getRegisterPage);
     router.post('/register', postRegister);
+    router.post('/logout', postLogout);
    
     // admin route
-    router.get('/admin', getDashboardPage);
+    router.get('/admin', isAdmin, getDashboardPage);
     // user
     router.get('/admin/user', getAdminUserPage);
     router.get('/admin/create-user',getCreateUserPage);
