@@ -1,7 +1,7 @@
 import express, { Express } from 'express';
 import { getHomePage, getCreateUserPage, postCreateUser, postDeleteUser, getViewUser, postUpdateUser } from 'controllers/userController';
 import { getDashboardPage, getAdminUserPage, getAdminOrderPage, getAdminProductPage } from 'controllers/admin/dashboardController';
-import { getProductPage, postAddProductToCart, getCartPage,postDeleteProductInCart } from 'controllers/client/productController';
+import { getProductPage, postAddProductToCart, getCartPage,postDeleteProductInCart, getCheckOutPage, postHandleCartToCheckOut } from 'controllers/client/productController';
 import { getAdminCreateProductPage, postAdminCreateProduct, postDeleteProduct, getViewProduct, postUpdateProduct } from 'controllers/admin/productController';
 import { getLoginPage, getRegisterPage, postRegister, getSuccessRedirectPage, postLogout } from 'controllers/client/authController';
 import  fileUploadMiddleware  from  'middlewares/multer';
@@ -24,9 +24,11 @@ const webRoutes = (app: Express) =>{
     router.post('/register', postRegister);
     router.post('/logout', postLogout);
 
+    router.get('/cart', getCartPage);
     router.post('/add-product-to-cart/:id', postAddProductToCart);
     router.post('/delete-product-in-cart/:id', postDeleteProductInCart);
-    router.get('/cart', getCartPage);
+    router.post('/handle-cart-to-checkout', postHandleCartToCheckOut);
+    router.get('/checkout', getCheckOutPage);
    
     // admin route
     router.get('/admin', getDashboardPage);
