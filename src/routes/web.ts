@@ -1,12 +1,14 @@
 import express, { Express } from 'express';
-import { getHomePage, getCreateUserPage, postCreateUser, postDeleteUser, getViewUser, postUpdateUser } from 'controllers/userController';
-import { getDashboardPage, getAdminUserPage, getAdminOrderPage, getAdminProductPage } from 'controllers/admin/dashboardController';
-import { getProductPage, postAddProductToCart, getCartPage,postDeleteProductInCart, getCheckOutPage, postHandleCartToCheckOut } from 'controllers/client/productController';
-import { getAdminCreateProductPage, postAdminCreateProduct, postDeleteProduct, getViewProduct, postUpdateProduct } from 'controllers/admin/productController';
-import { getLoginPage, getRegisterPage, postRegister, getSuccessRedirectPage, postLogout } from 'controllers/client/authController';
-import  fileUploadMiddleware  from  'middlewares/multer';
 import passport from 'passport';
+
+import  fileUploadMiddleware  from  'middlewares/multer';
 import { isAdmin } from 'middlewares/auth';
+import { getHomePage, getCreateUserPage, postCreateUser, postDeleteUser, getViewUser, postUpdateUser } from 'controllers/userController';
+import { getAdminOrderDetailPage } from 'controllers/admin/orderController';
+import { getDashboardPage, getAdminUserPage, getAdminOrderPage, getAdminProductPage } from 'controllers/admin/dashboardController';
+import { getAdminCreateProductPage, postAdminCreateProduct, postDeleteProduct, getViewProduct, postUpdateProduct } from 'controllers/admin/productController';
+import { getProductPage, postAddProductToCart, getCartPage,postDeleteProductInCart, getCheckOutPage, postHandleCartToCheckOut ,postPlaceOrder, getThanksPage} from 'controllers/client/productController';
+import { getLoginPage, getRegisterPage, postRegister, getSuccessRedirectPage, postLogout } from 'controllers/client/authController';
 const router = express.Router();
 
 const webRoutes = (app: Express) =>{
@@ -29,6 +31,9 @@ const webRoutes = (app: Express) =>{
     router.post('/delete-product-in-cart/:id', postDeleteProductInCart);
     router.post('/handle-cart-to-checkout', postHandleCartToCheckOut);
     router.get('/checkout', getCheckOutPage);
+    router.post('/place-order', postPlaceOrder);
+    router.get('/thanks', getThanksPage);
+
    
     // admin route
     router.get('/admin', getDashboardPage);
@@ -51,6 +56,7 @@ const webRoutes = (app: Express) =>{
     
     // order
     router.get('/admin/order', getAdminOrderPage);
+    router.get('/admin/order/:id', getAdminOrderDetailPage);
     
     app.use('/',isAdmin, router);
 }

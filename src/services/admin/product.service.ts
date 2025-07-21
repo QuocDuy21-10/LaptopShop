@@ -1,5 +1,4 @@
 import { prisma } from 'config/client';
-import exp from 'constants';
 const getAllProducts = async()=> {
     return await prisma.product.findMany();
 }

@@ -29,8 +29,6 @@ CREATE TABLE `order_detail` (
     `orderId` INTEGER NOT NULL,
     `productId` INTEGER NOT NULL,
 
-    UNIQUE INDEX `order_detail_orderId_key`(`orderId`),
-    UNIQUE INDEX `order_detail_productId_key`(`productId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

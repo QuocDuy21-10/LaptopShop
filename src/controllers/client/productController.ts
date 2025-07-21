@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { addProductToCart, deleteProductInCart, getProductById, getProductInCart, updateCartDetailBeforeCheckout } from "services/client/item.service";
+import { addProductToCart, deleteProductInCart, getProductById, getProductInCart, updateCartDetailBeforeCheckout, handlePlaceOrder } from "services/client/item.service";
 
 const getProductPage = async (req: Request, res: Response) => {
     const { id } = req.params;
@@ -75,8 +75,20 @@ const postHandleCartToCheckOut = async (req: Request, res: Response) => {
     return res.redirect("/checkout")
 }
 
+const postPlaceOrder = async (req: Request, res: Response) => {
+    const user = req.user;
+    if (!user) return res.redirect("/login");
+    const { receiverName, receiverAddress, receiverPhone, totalPrice} = req.body;
+    await handlePlaceOrder(+user.id, receiverName, receiverAddress, receiverPhone, +totalPrice);
+    return res.redirect("/thanks");
+}
+
+const getThanksPage = async (req: Request, res: Response) => {
+    return res.render("client/product/thanks.ejs");
+}
+
 export {
     getProductPage, postAddProductToCart, getCartPage,
     postDeleteProductInCart, getCheckOutPage,
-    postHandleCartToCheckOut
+    postHandleCartToCheckOut, postPlaceOrder, getThanksPage
 }
