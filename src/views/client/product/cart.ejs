@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>
-        Giỏ Hàng - @hoidanit
+        Giỏ Hàng
     </title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
@@ -168,6 +168,7 @@
                                 </div>
                                 <form action="/handle-cart-to-checkout" method="post">
                                     <div style="display: none">
+                                        <input name="cartId" value="<%= cartId %>" />
                                         <% cartDetails.forEach( function (cartDetail, index) { %>
                                             <div class="mb-3">
                                                 <div class="form-group">
