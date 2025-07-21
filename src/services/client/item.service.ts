@@ -66,7 +66,7 @@ const addProductToCart = async (quantity: number, productId: number, user: Expre
             data: {
                 sum: quantity,
                 userId: user.id,
-                CartDetail: {
+                cartDetails: {
                     create: [
                         {
                             quantity: quantity,
@@ -146,12 +146,12 @@ const handlePlaceOrder = async(userId: number, receiverName: string, receiverAdd
             userId
         },
         include: { 
-            CartDetail: true
+            cartDetails: true
         }
     })
     if (cart) {
         // create order
-        const dataOrderDetail = cart?.CartDetail?.map((item) => ({
+        const dataOrderDetail = cart?.cartDetails?.map((item) => ({
                 quantity: item.quantity,
                 price: item.price,
                 productId: item.productId
@@ -166,7 +166,7 @@ const handlePlaceOrder = async(userId: number, receiverName: string, receiverAdd
                 status: "PENDING",
                 totalPrice: totalPrice,
                 userId: userId,
-                OrderDetail: {
+                orderDetails: {
                     create: dataOrderDetail
                 }
             }
@@ -185,5 +185,18 @@ const handlePlaceOrder = async(userId: number, receiverName: string, receiverAdd
         })
     }
 }
-
-export { getProducts, getProductById,addProductToCart, getProductInCart, deleteProductInCart, updateCartDetailBeforeCheckout , handlePlaceOrder}
+const getOrderHistory = async(userId: number) => {
+    return await prisma.order.findMany({
+        where: {
+            userId
+        },
+        include: {
+            orderDetails: {
+                include: {
+                    product: true
+                }
+            }
+        }
+    })
+}
+export { getProducts, getProductById,addProductToCart, getProductInCart, deleteProductInCart, updateCartDetailBeforeCheckout , handlePlaceOrder, getOrderHistory}
