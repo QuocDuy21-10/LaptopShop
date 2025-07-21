@@ -87,8 +87,20 @@ const getThanksPage = async (req: Request, res: Response) => {
     return res.render("client/product/thanks.ejs");
 }
 
+const postAddToCartFromDetailPage = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { quantity } = req.body;
+    const user = req.user;
+    if (!user) {
+        return res.redirect("/login");
+    }
+    await addProductToCart(+quantity, +id, user);
+    return res.redirect(`/product/${id}`);
+}
+
 export {
     getProductPage, postAddProductToCart, getCartPage,
     postDeleteProductInCart, getCheckOutPage,
-    postHandleCartToCheckOut, postPlaceOrder, getThanksPage
+    postHandleCartToCheckOut, postPlaceOrder, getThanksPage,
+    postAddToCartFromDetailPage
 }

@@ -7,7 +7,7 @@ import { getHomePage, getCreateUserPage, postCreateUser, postDeleteUser, getView
 import { getAdminOrderDetailPage } from 'controllers/admin/orderController';
 import { getDashboardPage, getAdminUserPage, getAdminOrderPage, getAdminProductPage } from 'controllers/admin/dashboardController';
 import { getAdminCreateProductPage, postAdminCreateProduct, postDeleteProduct, getViewProduct, postUpdateProduct } from 'controllers/admin/productController';
-import { getProductPage, postAddProductToCart, getCartPage,postDeleteProductInCart, getCheckOutPage, postHandleCartToCheckOut ,postPlaceOrder, getThanksPage} from 'controllers/client/productController';
+import { getProductPage, postAddProductToCart, getCartPage,postDeleteProductInCart, getCheckOutPage, postHandleCartToCheckOut ,postPlaceOrder, getThanksPage,postAddToCartFromDetailPage} from 'controllers/client/productController';
 import { getLoginPage, getRegisterPage, postRegister, getSuccessRedirectPage, postLogout } from 'controllers/client/authController';
 import { getOrderHistoryPage } from 'controllers/client/orderController';
 const router = express.Router();
@@ -35,6 +35,7 @@ const webRoutes = (app: Express) =>{
     router.post('/place-order', postPlaceOrder);
     router.get('/thanks', getThanksPage);
     router.get('/order-history', getOrderHistoryPage);
+    router.post('/add-to-cart-from-detail-page/:id', postAddToCartFromDetailPage);
 
    
     // admin route
