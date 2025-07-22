@@ -20,3 +20,5 @@ export const targetOptions = [
   { name: "Mỏng nhẹ", value: "MONG-NHE" },
   { name: "Doanh nhân", value: "DOANH-NHAN" },
 ];
+
+export const TOTAL_ITEMS_PER_PAGE = 5;

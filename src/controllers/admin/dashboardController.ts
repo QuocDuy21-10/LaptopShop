@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { getAllUsers } from 'services/user.service';
-import { getAllProducts } from 'services/admin/product.service';
-import { getOrderAdmin } from 'services/admin/order.service';
+import { countTotalUsers, getAllUsers } from 'services/user.service';
+import { countTotalProducts, getAllProducts } from 'services/admin/product.service';
+import { countTotalOrders, getOrderAdmin } from 'services/admin/order.service';
 import { getDashboardInfo } from 'services/admin/dashboard.service';
 
 const getDashboardPage = async (req:Request, res:Response) => {
@@ -12,23 +12,35 @@ const getDashboardPage = async (req:Request, res:Response) => {
 }
 
 const getAdminUserPage = async (req:Request, res:Response) => {
-    const users = await getAllUsers();
+    const {page} = req.query;
+    let currentPage = page ? +page : 1
+    if (currentPage <= 0) currentPage = 1
+    const users = await getAllUsers(currentPage);
+    const totalPages = await countTotalUsers()
     return res.render('admin/user/show.ejs', {
-        users
+        users, totalPages: +totalPages, page: +currentPage
     });
 }
 
 const getAdminProductPage = async (req:Request, res:Response) => {
-    const products = await getAllProducts();
+    const {page} = req.query;
+    let currentPage = page ? +page : 1
+    if (currentPage <= 0) currentPage = 1
+    const products = await getAllProducts(currentPage);
+    const totalPages = await countTotalProducts()
     return res.render('admin/product/show.ejs', {
-        products
+        products,totalPages: +totalPages, page: +currentPage
     });
 }
 
 const getAdminOrderPage = async (req:Request, res:Response) => {
-    const orders = await getOrderAdmin();
+    const {page} = req.query;
+    let currentPage = page ? +page : 1
+    if (currentPage <= 0) currentPage = 1
+    const orders = await getOrderAdmin(currentPage);
+    const totalPages = await countTotalOrders()
     return res.render('admin/order/show.ejs', {
-        orders
+        orders,totalPages: +totalPages, page: +currentPage
     });
 }
 
