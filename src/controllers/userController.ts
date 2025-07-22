@@ -1,13 +1,16 @@
 import { Request, Response } from 'express';
-import { getProducts } from 'services/client/item.service';
+import { getProducts, countTotalProductClientPages } from 'services/client/item.service';
 import { getAllUsers, handleCreateUser, handleDeleteUser, getUserById, handleUpdateUser ,getAllRoles} from 'services/user.service';
 const getHomePage = async (req : Request, res : Response)=> {
-   const products = await getProducts();
-   const user = req.user;
-   console.log(">>> current user: ",user);
-   console.log(">>> current query: ",req.query);
-   return res.render('client/home/show.ejs', {
-      products
+    const {page} = req.query;
+    let currentPage = page ? +page : 1
+    if (currentPage <= 0) currentPage = 1
+    const totalPages = await countTotalProductClientPages(8);
+    const products = await getProducts(currentPage, 8);
+    return res.render('client/home/show.ejs', {
+      products,
+      totalPages: +totalPages,
+      page: +currentPage
    });
 }
 

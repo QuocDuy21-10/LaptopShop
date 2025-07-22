@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { addProductToCart, deleteProductInCart, getProductById, getProductInCart, updateCartDetailBeforeCheckout, handlePlaceOrder } from "services/client/item.service";
+import { addProductToCart, deleteProductInCart, getProductById, getProductInCart, updateCartDetailBeforeCheckout, handlePlaceOrder, countTotalProductClientPages, getProducts } from "services/client/item.service";
 
 const getProductPage = async (req: Request, res: Response) => {
     const { id } = req.params;
@@ -101,9 +101,22 @@ const postAddToCartFromDetailPage = async (req: Request, res: Response) => {
     return res.redirect(`/product/${id}`);
 }
 
+const getProductFilterPage = async (req: Request, res: Response) => {
+    const  {page} = req.query;
+    let currentPage = page ? +page : 1
+    if (currentPage <= 0) currentPage = 1
+
+    const totalPages = await countTotalProductClientPages(6);
+    const products = await getProducts(currentPage, 6);
+    return res.render("client/product/filter.ejs", {
+        products,
+        totalPages: +totalPages,
+        page: +currentPage
+    });
+}
 export {
     getProductPage, postAddProductToCart, getCartPage,
     postDeleteProductInCart, getCheckOutPage,
     postHandleCartToCheckOut, postPlaceOrder, getThanksPage,
-    postAddToCartFromDetailPage
+    postAddToCartFromDetailPage, getProductFilterPage
 }

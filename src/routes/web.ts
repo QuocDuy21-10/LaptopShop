@@ -7,7 +7,7 @@ import { getHomePage, getCreateUserPage, postCreateUser, postDeleteUser, getView
 import { getAdminOrderDetailPage } from 'controllers/admin/orderController';
 import { getDashboardPage, getAdminUserPage, getAdminOrderPage, getAdminProductPage } from 'controllers/admin/dashboardController';
 import { getAdminCreateProductPage, postAdminCreateProduct, postDeleteProduct, getViewProduct, postUpdateProduct } from 'controllers/admin/productController';
-import { getProductPage, postAddProductToCart, getCartPage,postDeleteProductInCart, getCheckOutPage, postHandleCartToCheckOut ,postPlaceOrder, getThanksPage,postAddToCartFromDetailPage} from 'controllers/client/productController';
+import { getProductPage, postAddProductToCart, getCartPage,postDeleteProductInCart, getCheckOutPage, postHandleCartToCheckOut ,postPlaceOrder, getThanksPage,postAddToCartFromDetailPage, getProductFilterPage} from 'controllers/client/productController';
 import { getLoginPage, getRegisterPage, postRegister, getSuccessRedirectPage, postLogout } from 'controllers/client/authController';
 import { getOrderHistoryPage } from 'controllers/client/orderController';
 const router = express.Router();
@@ -15,6 +15,8 @@ const router = express.Router();
 const webRoutes = (app: Express) =>{
     // client route
     router.get('/', getHomePage);
+    router.get('/products', getProductFilterPage);
+
     router.get('/success-redirect', getSuccessRedirectPage);
     router.get('/product/:id', getProductPage);
     router.get('/login', getLoginPage);
