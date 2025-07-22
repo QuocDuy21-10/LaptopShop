@@ -159,7 +159,10 @@ const updateCartDetailBeforeCheckout = async(data: {id: string, quantity: string
 }
 
 const handlePlaceOrder = async(userId: number, receiverName: string, receiverAddress: string, receiverPhone: string, totalPrice: number) => {
-    const cart = await prisma.cart.findUnique({
+    try {
+        // tạo transaction 
+        await prisma.$transaction(async (tx)=> {
+         const cart = await tx.cart.findUnique({
         where: {
             userId
         },
@@ -174,7 +177,7 @@ const handlePlaceOrder = async(userId: number, receiverName: string, receiverAdd
                 price: item.price,
                 productId: item.productId
         })) ?? [];
-        await prisma.order.create({
+        await tx.order.create({
             data: {
                 paymentMethod: "COD",
                 paymentStatus: "PAYMENT_UNPAID",
@@ -190,18 +193,51 @@ const handlePlaceOrder = async(userId: number, receiverName: string, receiverAdd
             }
         })
         // delete cart detail
-        await prisma.cartDetail.deleteMany({
+        await tx.cartDetail.deleteMany({
             where: {
                 cartId: cart.id
             }
         })
         // delete cart
-        await prisma.cart.delete({
+        await tx.cart.delete({
             where: {
                 id: cart.id
             }
         })
+        // check product
+        for (let i = 0;  i< cart.cartDetails.length; i++) {
+            const productId = cart.cartDetails[i].productId;
+            const product = await tx.product.findUnique({
+                where: {
+                    id: productId
+                }
+            })
+
+            if(!product || product.quantity < cart.cartDetails[i].quantity) {
+                throw new Error(`Sản phẩm ${product?.name} không tồn tại hoặc không đủ số lượng`)
+            }
+            // update quantity, sold
+            await tx.product.update({
+                where: {
+                    id: productId
+                },
+                data: {
+                    quantity: {
+                        decrement: cart.cartDetails[i].quantity
+                    },
+                    sold: {
+                        increment: cart.cartDetails[i].quantity
+                    }
+                }
+            })
+        }
     }
+    })
+    } catch (error) {
+        console.log(error)
+        return error.message;
+    }
+    
 }
 const getOrderHistory = async(userId: number) => {
     return await prisma.order.findMany({
