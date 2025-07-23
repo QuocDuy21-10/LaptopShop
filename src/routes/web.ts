@@ -2,8 +2,8 @@ import express, { Express } from 'express';
 import passport from 'passport';
 
 import  fileUploadMiddleware  from  'middlewares/multer';
-import { isAdmin } from 'middlewares/auth';
-import { getHomePage, getCreateUserPage, postCreateUser, postDeleteUser, getViewUser, postUpdateUser } from 'controllers/userController';
+import { isAdmin, isLogin } from 'middlewares/auth';
+import { getHomePage, getCreateUserPage, postCreateUser, postDeleteUser, getViewUser, postUpdateUser, getProfilePage, postUpdateProfile } from 'controllers/userController';
 import { getAdminOrderDetailPage } from 'controllers/admin/orderController';
 import { getDashboardPage, getAdminUserPage, getAdminOrderPage, getAdminProductPage } from 'controllers/admin/dashboardController';
 import { getAdminCreateProductPage, postAdminCreateProduct, postDeleteProduct, getViewProduct, postUpdateProduct } from 'controllers/admin/productController';
@@ -19,14 +19,16 @@ const webRoutes = (app: Express) =>{
 
     router.get('/success-redirect', getSuccessRedirectPage);
     router.get('/product/:id', getProductPage);
-    router.get('/login', getLoginPage);
+    router.get('/login',isLogin, getLoginPage);
     router.post('/login', passport.authenticate('local', {
         successRedirect: '/success-redirect',
         failureRedirect: '/login',
         failureMessage: true, // passport sẽ lưu message vào req.session.messages
     }));
-    router.get('/register', getRegisterPage);
+    router.get('/register',isLogin, getRegisterPage);
     router.post('/register', postRegister);
+    router.get('/profile', getProfilePage);
+    router.post('/update-profile', fileUploadMiddleware('avatar'), postUpdateProfile);
     router.post('/logout', postLogout);
 
     router.get('/cart', getCartPage);

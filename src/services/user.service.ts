@@ -79,4 +79,18 @@ const handleCreateUser = async(fullName: string, email: string, address: string,
         }
     })
  }
-export { handleCreateUser, getAllUsers, handleDeleteUser, getUserById, handleUpdateUser, getAllRoles, hashPassword , countTotalUsers};
+ const handleUpdateProfile = async(id: string, fullName: string, phone: string, address: string, avatar: string )=> {
+     return prisma.user.update({
+         where: {
+             id: +id,
+         },
+         data: {
+             fullName: fullName,
+             phone: phone,
+             address: address,
+             ...(avatar ? { avatar } : {})
+         }
+     })
+ }
+
+export { handleCreateUser, getAllUsers, handleDeleteUser, getUserById, handleUpdateUser, getAllRoles, hashPassword , countTotalUsers, handleUpdateProfile};

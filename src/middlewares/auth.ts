@@ -1,11 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
-const isLogin = (req:Request, res: Response, next:NextFunction)=> {
-    const isAuthenticated = req.isAuthenticated();
-    if (isAuthenticated) {
-        return res.redirect('/');
+const isLogin = (req: Request, res: Response, next: NextFunction) => {
+    if (req.isAuthenticated()) {
+        return res.redirect('/'); 
     }
     next();
-}
+};
 const isAdmin = (req:Request, res: Response, next:NextFunction)=> {
     // apply only for admin routes
     if (req.path.startsWith('/admin')) {

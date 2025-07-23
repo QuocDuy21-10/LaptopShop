@@ -65,13 +65,13 @@
                                 <ul class="dropdown-menu dropdown-menu-end p-4" aria-labelledby="dropdownMenuLink">
                                     <li class="d-flex align-items-center flex-column" style="min-width: 300px;">
                                         <img style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden;"
-                                            src="/images/<%= user?.avatar%>" />
+                                            src="/images/<%= user?.avatar ?? 'noAvatar.jpg'%>" />
                                         <div class="text-center my-3">
                                             <%= user?.fullName ?? "" %>
                                         </div>
                                     </li>
 
-                                    <li><a class="dropdown-item" href="#">Quản lý tài khoản</a></li>
+                                    <li><a class="dropdown-item" href="/profile">Quản lý tài khoản</a></li>
 
                                     <li><a class="dropdown-item" href="/order-history">Lịch sử mua hàng</a></li>
                                     <li>
