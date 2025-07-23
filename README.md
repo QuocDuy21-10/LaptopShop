@@ -4,7 +4,7 @@
 npm install
 
 # 2. Tạo database và generate Prisma Client
-npx prisma generate. 
+npx prisma generate  
 npx prisma migrate dev --name init
 
 # 3. Chạy development
