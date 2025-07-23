@@ -49,11 +49,12 @@
                             <i class="fa fa-shopping-bag fa-2x"></i>
                             <span
                                 class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                                style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
+                                style="top: -5px; left: 15px; height: 20px; min-width: 20px;" id="sumCart">
                                 <%= user?.sumCart ?? 0 %>
                             </span>
                         </a>
                         <% if(user){ %>
+                            <!-- Logged -->
                             <div class="dropdown my-auto">
                                 <a href="#" class="dropdown" role="button" id="dropdownMenuLink"
                                     data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="dropdown"
@@ -84,7 +85,8 @@
                                 </ul>
                             </div>
                             <% }else{%>
-                                <a href="/login" class="btn btn-primary py-2 px-4 my-auto text-white me-3">Đăng nhập</a>
+                                <a href="/login" class="a-login btn btn-primary py-2 px-4 my-auto text-white me-3">Đăng
+                                    nhập</a>
                                 <a href="/register" class="btn btn-primary py-2 px-4 my-auto text-white ">Đăng ký</a>
                                 <%}%>
                     </div>
